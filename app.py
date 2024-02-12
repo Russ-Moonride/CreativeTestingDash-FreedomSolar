@@ -355,6 +355,7 @@ def main_dashboard():
       WHERE Date BETWEEN '{one_year_ago}' AND CURRENT_DATE() """
       
       st.session_state.full_data = pandas.read_gbq(query, credentials=credentials)
+      st.write(st.session_state.full_data)
 
   data = st.session_state.full_data
   
