@@ -21,7 +21,7 @@ credentials = service_account.Credentials.from_service_account_info(
       )
 client = bigquery.Client(credentials=credentials)
 bucket_name = "creativetesting_images"
-main_table_id = 'sunpower-375201.sunpower_segments.sunpower_platform_ad_level'
+main_table_id = 'freedom-solar-406415.freedom_solar_segments.freedom_ad_level'
 
 def initialize_storage_client():
     credentials = service_account.Credentials.from_service_account_info(
