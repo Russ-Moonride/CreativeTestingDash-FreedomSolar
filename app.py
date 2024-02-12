@@ -23,6 +23,7 @@ client = bigquery.Client(credentials=credentials)
 bucket_name = "creativetesting_images_freedomsolar"
 main_table_id = 'freedom-solar-406415.freedom_solar_segments.freedom_ad_level'
 creativetesting_table_id = 'freedom-solar-406415.freedom_solar_streamlit.CreativeTestingStorage'
+correct_hashed_password = "FreedomSolar1234"
 
 st.set_page_config(page_title= f"{Account} Creative Ad Testing Dash",page_icon="🧑‍🚀",layout="wide")
 
@@ -43,7 +44,6 @@ def password_protection():
       
   if not st.session_state.authenticated:
       password = st.text_input("Enter Password:", type="password")
-      correct_hashed_password = "FreedomSolar1234"
       
       if st.button("Login"):
           if password == correct_hashed_password:
