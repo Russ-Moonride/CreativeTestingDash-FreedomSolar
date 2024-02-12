@@ -18,7 +18,7 @@ credentials = service_account.Credentials.from_service_account_info(
           st.secrets["gcp_service_account"]
       )
 
-Account = "Freedoms Solar"
+Account = "Freedom Solar"
 client = bigquery.Client(credentials=credentials)
 bucket_name = "creativetesting_images_freedomsolar"
 main_table_id = 'freedom-solar-406415.freedom_solar_segments.freedom_ad_level'
@@ -341,7 +341,7 @@ def display_images(images, captions):
 
 
 def main_dashboard():
-  st.markdown("<h1 style='text-align: center;'>Freedom Solar Creative Ad Testing</h1>", unsafe_allow_html=True)
+  st.markdown(f"<h1 style='text-align: center;'>{Account} Creative Ad Testing</h1>", unsafe_allow_html=True)
   st.markdown("<h2 style='text-align: center;'>Current Test</h2>", unsafe_allow_html=True)
   # Calculate the date one year ago from today
   one_year_ago = (datetime.now() - timedelta(days=365)).date()
