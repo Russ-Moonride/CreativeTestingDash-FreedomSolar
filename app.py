@@ -14,15 +14,17 @@ import requests
 import json
 from google.cloud import storage
 
-st.set_page_config(page_title="Freedom Solar Creative Ad Testing Dash",page_icon="🧑‍🚀",layout="wide")
-
 credentials = service_account.Credentials.from_service_account_info(
           st.secrets["gcp_service_account"]
       )
+
+Account = "Freedom Solar"
 client = bigquery.Client(credentials=credentials)
 bucket_name = "creativetesting_images_freedomsolar"
 main_table_id = 'freedom-solar-406415.freedom_solar_segments.freedom_ad_level'
 creativetesting_table_id = 'freedom-solar-406415.freedom_solar_streamlit.CreativeTestingStorage'
+
+st.set_page_config(page_title= f"{Account} Creative Ad Testing Dash",page_icon="🧑‍🚀",layout="wide")
 
 def initialize_storage_client():
     credentials = service_account.Credentials.from_service_account_info(
