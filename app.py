@@ -21,7 +21,7 @@ credentials = service_account.Credentials.from_service_account_info(
       )
 client = bigquery.Client(credentials=credentials)
 bucket_name = "creativetesting_images"
-
+main_table_id = 'sunpower-375201.sunpower_segments.sunpower_platform_ad_level'
 
 def initialize_storage_client():
     credentials = service_account.Credentials.from_service_account_info(
@@ -351,8 +351,13 @@ def main_dashboard():
       client = bigquery.Client(credentials=credentials)
       # Modify the query
       query = f"""
-      SELECT * FROM `sunpower-375201.sunpower_segments.sunpower_platform_ad_level` 
+      SELECT * FROM `@raw_ad_data` 
       WHERE Date BETWEEN '{one_year_ago}' AND CURRENT_DATE() """
+      job_config = bigquery.QueryJobConfig(
+            query_parameters=[
+                bigquery.ScalarQueryParameter("raw_ad_data", "STRING", main_table_id)
+            ]
+        )
       st.session_state.full_data = pandas.read_gbq(query, credentials=credentials)
 
   data = st.session_state.full_data
