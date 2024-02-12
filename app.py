@@ -20,8 +20,9 @@ credentials = service_account.Credentials.from_service_account_info(
           st.secrets["gcp_service_account"]
       )
 client = bigquery.Client(credentials=credentials)
-bucket_name = "creativetesting_images"
+bucket_name = "creativetesting_images_freedomsolar"
 main_table_id = 'freedom-solar-406415.freedom_solar_segments.freedom_ad_level'
+creativetesting_table_id = 'freedom-solar-406415.freedom_solar_streamlit.CreativeTestingStorage'
 
 def initialize_storage_client():
     credentials = service_account.Credentials.from_service_account_info(
@@ -97,14 +98,14 @@ def get_campaign_value(ad_set, creative_storage_data):
 def update_ad_set_table(new_ad_set_name, campaign_name=None):
     # Query to find the current Ad-Set and Campaign
     query = """
-    SELECT Ad_Set, Campaign FROM `sunpower-375201.sunpower_streamlit.CreativeTestingStorage` WHERE Type = 'Current'
+    SELECT Ad_Set, Campaign FROM `{creativetesting_table_id}` WHERE Type = 'Current'
     """
     current_ad_set_campaign = pandas.read_gbq(query, credentials=credentials)
 
     # If current Ad-Set exists, update it to 'Past'
     if not current_ad_set_campaign.empty:
         update_query = """
-        UPDATE `sunpower-375201.sunpower_streamlit.CreativeTestingStorage`
+        UPDATE `{creativetesting_table_id}`
         SET Type = 'Past'
         WHERE Ad_Set = @current_ad_set 
         """
@@ -118,7 +119,7 @@ def update_ad_set_table(new_ad_set_name, campaign_name=None):
 
     # Insert the new Ad-Set with Type 'Current'
     insert_query = """
-    INSERT INTO `sunpower-375201.sunpower_streamlit.CreativeTestingStorage` (Ad_Set, Campaign, Type) VALUES (@new_ad_set, @campaign, 'Current')
+    INSERT INTO `{creativetesting_table_id}` (Ad_Set, Campaign, Type) VALUES (@new_ad_set, @campaign, 'Current')
     """
     job_config = bigquery.QueryJobConfig(
         query_parameters=[
@@ -159,7 +160,7 @@ def delete_ad_set(ad_set_value_to_delete, full_data):
         # SQL statement for deletion
         if ad_set_value_to_delete in full_data['Ad_Set_Name__Facebook_Ads'].values:
                   delete_query = """
-                  DELETE FROM `sunpower-375201.sunpower_streamlit.CreativeTestingStorage`
+                  DELETE FROM `{creativetesting_table_id}`
                   WHERE Ad_Set = @ad_set_value
                   AND Type = 'Past'
                   """
@@ -355,7 +356,6 @@ def main_dashboard():
       WHERE Date BETWEEN '{one_year_ago}' AND CURRENT_DATE() """
       
       st.session_state.full_data = pandas.read_gbq(query, credentials=credentials)
-      st.write(st.session_state.full_data)
 
   data = st.session_state.full_data
   
@@ -366,7 +366,7 @@ def main_dashboard():
       client = bigquery.Client(credentials=credentials)
       # Modify the query
       query = f"""
-      SELECT * FROM `sunpower-375201.sunpower_streamlit.CreativeTestingStorage` 
+      SELECT * FROM `{creativetesting_table_id}` 
       WHERE Type = 'Current'"""
       st.session_state.current_test_data = pandas.read_gbq(query, credentials=credentials)
 
@@ -379,7 +379,7 @@ def main_dashboard():
       client = bigquery.Client(credentials=credentials)
       # Modify the query
       query = f"""
-      SELECT * FROM `sunpower-375201.sunpower_streamlit.CreativeTestingStorage` 
+      SELECT * FROM `{creativetesting_table_id}` 
       WHERE Type = 'Past'"""
       st.session_state.past_test_data = pandas.read_gbq(query, credentials=credentials)
 
