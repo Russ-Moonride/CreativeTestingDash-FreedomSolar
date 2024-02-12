@@ -439,7 +439,7 @@ def main_dashboard():
 
 if current_test_data.empty:
             st.markdown("<h4 style='text-align: center;'>No Current Tests to Display</h4>", unsafe_allow_html=True)
-  else:              
+else:              
             current_Ad_Set = current_test_data['Ad_Set'].iloc[0]
           
             current_Ad_Set = current_Ad_Set.strip("'")
