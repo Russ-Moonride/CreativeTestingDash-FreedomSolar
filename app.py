@@ -558,27 +558,26 @@ def main_dashboard():
   display_images(final_adnames, final_adnames)        
           
   st.markdown("<h2 style='text-align: center;'>Past Tests</h2>", unsafe_allow_html=True)
-  
-  past_tests = past_test_data['Ad_Set']
 
-  # Dictionary to store DataFrames for each ad set
-  ad_set_dfs = {}
-
-  #remove_ad_set = st.text_input("Enter Past Ad Set Name to remove")
-  #if st.button("Remove Ad Set"):
-  #        delete_ad_set(remove_ad_set, st.session_state.full_data)
-      
-  for ad_set in past_tests:
-      ad_set_dfs[ad_set] = process_ad_set_data(st.session_state.full_data, ad_set, past_test_data)
-
-  for ad_set in ad_set_dfs:
-      with st.expander(f"Show Data for {ad_set}"):
-          st.dataframe(ad_set_dfs[ad_set], width=2000)
-          current_df = ad_set_dfs[ad_set]
-          ad_names = current_df['Ad_Name']
-          ad_names = [item + ".jpg" for item in ad_names]
-          ad_names.pop()
-          display_images(ad_names, ad_names)
+  if past_test_data.empty:
+            st.markdown("<h4 style='text-align: center;'>No Past Tests to Display</h4>", unsafe_allow_html=True)
+  else:        
+            past_tests = past_test_data['Ad_Set']
+          
+            # Dictionary to store DataFrames for each ad set
+            ad_set_dfs = {}
+            
+            for ad_set in past_tests:
+                ad_set_dfs[ad_set] = process_ad_set_data(st.session_state.full_data, ad_set, past_test_data)
+          
+            for ad_set in ad_set_dfs:
+                with st.expander(f"Show Data for {ad_set}"):
+                    st.dataframe(ad_set_dfs[ad_set], width=2000)
+                    current_df = ad_set_dfs[ad_set]
+                    ad_names = current_df['Ad_Name']
+                    ad_names = [item + ".jpg" for item in ad_names]
+                    ad_names.pop()
+                    display_images(ad_names, ad_names)
 
 if __name__ == '__main__':
     password_protection()
