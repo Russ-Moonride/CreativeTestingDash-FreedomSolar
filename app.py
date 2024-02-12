@@ -351,13 +351,9 @@ def main_dashboard():
       client = bigquery.Client(credentials=credentials)
       # Modify the query
       query = f"""
-      SELECT * FROM `@raw_ad_data` 
+      SELECT * FROM `{main_table_id}` 
       WHERE Date BETWEEN '{one_year_ago}' AND CURRENT_DATE() """
-      job_config = bigquery.QueryJobConfig(
-            query_parameters=[
-                bigquery.ScalarQueryParameter("raw_ad_data", "STRING", main_table_id)
-            ]
-        )
+      
       st.session_state.full_data = pandas.read_gbq(query, credentials=credentials)
 
   data = st.session_state.full_data
