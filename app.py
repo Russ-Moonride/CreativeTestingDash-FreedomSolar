@@ -396,7 +396,8 @@ def main_dashboard():
           
             # Concatenate aggregated_data with total_df
             final_df = pd.concat([aggregated_data, total_df])
-          
+
+            st.write(final_df)
             # Initialize an empty list to store significance results
             significance_results = []
             
