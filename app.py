@@ -83,7 +83,7 @@ def update_ad_set_table(test_name, ad_names):
     # If current Ad-Set exists, update it to 'Past'
     if not current_ad_test.empty:
         update_query = """
-        UPDATE `axia-414123.axia_streamlit.creativetestingstorage`
+        UPDATE `freedom-solar-406415.freedom_solar_streamlit.creativetestingstorage`
         SET Type = 'Past'
         WHERE Test_Name = @current_ad_test 
         """
